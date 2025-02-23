@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6f2;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background: #ff4d79;
+            padding: 10px;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        nav button:hover {
+            transform: scale(1.1);
+        }
+        .page {
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        h1 {
+            color: #ff4d79;
+            text-align: center;
+        }
+        .quotes {
+            margin-top: 20px;
+            font-style: italic;
+            color: #ff4d79;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .countdown {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff4d79;
+            text-align: center;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        .envelope {
+            font-size: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        .envelope:hover {
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            nav button {
+                font-size: 1em;
+            }
+            .countdown {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <button onclick="showPage('quotes')">Quotes 💌</button>
+            <button onclick="showPage('countdown')">Countdown ⏳</button>
+            <button onclick="showPage('gallery')">Gallery 📸</button>
+        </nav>
+
+        <!-- Quotes Page -->
+        <div id="quotes" class="page active">
+            <h1>For My Love ❤️</h1>
+            <div class="envelope" onclick="newQuote()" aria-label="Click for a romantic quote">📩</div>
+            <p class="quotes" id="quote"></p>
+            <button onclick="saveFavoriteQuote()">Save Favorite Quote 💾</button>
+            <p id="favorite-quote"></p>
+        </div>
+
+        <!-- Countdown Page -->
+        <div id="countdown" class="page">
+            <h1>Anniversary Countdown ⏳</h1>
+            <p class="countdown" id="countdown-timer"></p>
+        </div>
+
+        <!-- Gallery Page -->
+        <div id="gallery" class="page">
+            <h1>Our Memories 📸</h1>
+            <div class="gallery">
+                <!-- Add your images here -->
+                <img src="https://i.imgur.com/8aW7zJM.jpg" alt="Memory 1">
+                <img src="https://i.imgur.com/HQs4ATy.jpg" alt="Memory 2">
+                <img src="https://i.imgur.com/pBMJNtt.jpg" alt="Memory 3">
+                <img src="https://i.imgur.com/LjWaSqS.jpg" alt="Memory 4">
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const quotes = [
+            "You are my sun, my moon, and all my stars.",
+            "I love you more than words can wield the matter.",
+            "You are my today and all of my tomorrows.",
+            "If I had a flower for every time I thought of you, I could walk in my garden forever.",
+            "Every love story is beautiful, but ours is my favorite.",
+            "You are the best thing that ever happened to me.",
+            "To the world, you may be one person, but to me, you are the world.",
+            "I have found the one whom my soul loves.",
+            "Your love is all I need to feel complete.",
+            "I love you more with each passing day."
+        ];
+
+        // Show a random quote
+        function newQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').textContent = randomQuote;
+        }
+
+        // Save favorite quote to local storage
+        function saveFavoriteQuote() {
+            const favoriteQuote = document.getElementById('quote').textContent;
+            localStorage.setItem('favoriteQuote', favoriteQuote);
+            document.getElementById('favorite-quote').textContent = `Favorite Quote: ${favoriteQuote}`;
+        }
+
+        // Load favorite quote from local storage
+        function loadFavoriteQuote() {
+            const favoriteQuote = localStorage.getItem('favoriteQuote');
+            if (favoriteQuote) {
+                document.getElementById('favorite-quote').textContent = `Favorite Quote: ${favoriteQuote}`;
+            }
+        }
+
+        // Countdown timer
+        function countdown() {
+            const targetDate = new Date('2025-12-21T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown-timer').textContent = "Our special day has arrived! 🎉";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-timer').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left!`;
+        }
+
+        // Show specific page
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Initialize
+        newQuote(); // Show a quote on page load
+        loadFavoriteQuote(); // Load saved favorite quote
+        countdown(); // Start the countdown
+        setInterval(countdown, 1000); // Update countdown every second
+
+        // Play background music
+        const music = document.getElementById('background-music');
+        music.volume = 0.5; // Lower volume
+        music.play();
+    </script>
+</body>
+</html>
